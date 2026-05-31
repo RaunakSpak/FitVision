@@ -121,7 +121,7 @@ async function apiFetch<T>(
     });
   } catch {
     throw new ApiError(
-      "Cannot reach the API. Ensure the backend is running (see README).",
+      "Backend is offline. Please start the API server.",
       0
     );
   }
@@ -209,3 +209,12 @@ export const workoutApi = {
 };
 
 export { ApiError };
+
+export interface HealthResponse {
+  status: string;
+  service: string;
+}
+
+export const healthApi = {
+  check: () => apiFetch<HealthResponse>("/api/health"),
+};

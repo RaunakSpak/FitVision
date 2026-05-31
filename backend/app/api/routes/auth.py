@@ -55,7 +55,10 @@ def register(payload: UserRegister, response: Response, db: Session = Depends(ge
         )
     db.refresh(user)
 
-    token = create_access_token(str(user.id))
+    token = create_access_token(
+        str(user.id),
+        expires_delta=timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES),
+    )
     _set_auth_cookie(response, token)
     return user
 

@@ -35,7 +35,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUser(me);
     } catch (err) {
       setUser(null);
-      if (err instanceof ApiError && err.status !== 401) {
+      if (err instanceof ApiError && err.status !== 401 && err.status !== 0) {
         setError(err.message);
       }
     } finally {

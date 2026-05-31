@@ -343,6 +343,8 @@ flowchart TB
 
 ---
 
+## Getting Started
+
 ### Prerequisites
 
 - Node.js 18+
@@ -370,10 +372,24 @@ pip install -r requirements.txt
 cp .env.example .env
 # Edit .env — DATABASE_URL, JWT_SECRET_KEY, FRONTEND_URL
 alembic upgrade head
-uvicorn app.main:app --reload --port 8001
+uvicorn app.main:app --reload --port 8000
 ```
 
-> **Note:** Port 8001 is used if 8000 is occupied. Update `NEXT_PUBLIC_API_URL` in `.env.local` to match.
+> **Note:** If port 8000 is already in use, pick another port (e.g. `8001`) and set the same value in `.env.local` as `NEXT_PUBLIC_API_URL`.
+
+### Verify setup
+
+```bash
+# Frontend
+npm run lint
+npm run build
+
+# Backend health (with API running)
+curl http://localhost:8000/api/health
+# → {"status":"ok","service":"FitVision AI API"}
+```
+
+When the backend is offline, the app shows: **“Backend is offline. Please start the API server.”** Live trainer and video analysis still work locally.
 
 ### Database Migrations
 
@@ -406,7 +422,7 @@ alembic downgrade -1          # Rollback one step
 
 | Method | Path | Auth | Description |
 |--------|------|------|-------------|
-| GET | `/api/health` | No | Health check |
+| GET | `/api/health` | No | Health check — `{ "status": "ok", "service": "FitVision AI API" }` |
 | POST | `/api/auth/register` | No | Create account |
 | POST | `/api/auth/login` | No | Sign in (sets cookie) |
 | POST | `/api/auth/logout` | No | Sign out |
@@ -466,6 +482,48 @@ FRONTEND_URL=https://fitvision.vercel.app,https://staging-fitvision.vercel.app
 - [ ] Mobile PWA install prompt
 - [ ] Multi-language voice coach
 - [ ] Coach dashboard for trainers
+
+## QA Checklist (Phase 9)
+
+Run before demo or deployment. **No CI/CD required** — manual verification only.
+
+### Commands must pass
+
+```bash
+npm install && npm run lint && npm run build
+cd backend && pip install -r requirements.txt && alembic upgrade head
+uvicorn app.main:app --reload --port 8000
+```
+
+### Frontend
+
+| Feature | Expected |
+|---------|----------|
+| Landing page | Loads; CTAs navigate |
+| Live trainer | Camera + pose + exercise switch (no login) |
+| Voice coach | Speaks on rep/form cues; mute works |
+| End workout | Summary modal with grade |
+| Save workout | Requires login; POST succeeds when backend online |
+| Login / register / logout | Cookie auth; redirects to home |
+| Dashboard | Charts when signed in + backend online |
+| History | List/delete when signed in |
+| Video analysis | Local file analysis (no upload) |
+| ML Lab | Toggle + dataset export |
+| Backend offline | Amber banner; friendly error on API calls |
+
+### Backend API
+
+| Endpoint | Expected |
+|----------|----------|
+| `GET /api/health` | `200` + status ok |
+| `POST /api/auth/register` | `201` + Set-Cookie |
+| `POST /api/auth/login` | `200` + Set-Cookie |
+| `GET /api/auth/me` | `200` when cookie valid |
+| `POST /api/auth/logout` | Clears cookie |
+| `POST /api/workouts` | `201` authenticated |
+| `GET /api/workouts` | List for user |
+| `GET /api/workouts/analytics` | Aggregated stats |
+| `DELETE /api/workouts/{id}` | `204` |
 
 ## License
 

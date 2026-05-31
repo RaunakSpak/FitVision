@@ -45,4 +45,4 @@ app.include_router(workouts.router, prefix="/api")
 
 @app.get("/api/health")
 def health_check():
-    return {"status": "ok"}
+    return {"status": "ok", "service": "FitVision AI API"}

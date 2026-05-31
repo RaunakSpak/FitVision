@@ -10,6 +10,7 @@ import Dashboard from "@/components/Dashboard";
 import VideoUploadAnalyzer from "@/components/VideoUploadAnalyzer";
 import MLLab from "@/components/MLLab";
 import AuthModal from "@/components/AuthModal";
+import BackendStatusBanner from "@/components/BackendStatusBanner";
 import WorkoutHistory from "@/components/WorkoutHistory";
 
 export default function FitVisionApp() {
@@ -57,7 +58,9 @@ export default function FitVisionApp() {
 
   if (view === "home") {
     return (
-      <div className="h-full overflow-y-auto">
+      <div className="flex h-full flex-col overflow-hidden">
+        <BackendStatusBanner />
+        <div className="h-full overflow-y-auto">
         <LandingPage
           onStartTrainer={startLiveTrainer}
           onVideoAnalysis={() => navigate("video")}
@@ -70,12 +73,14 @@ export default function FitVisionApp() {
           onClose={() => setAuthOpen(false)}
           onSuccess={handleAuthSuccess}
         />
+        </div>
       </div>
     );
   }
 
   return (
     <div className="flex h-full flex-col overflow-hidden">
+      <BackendStatusBanner />
       <AppNavigation
         currentView={view}
         onNavigate={navigate}
