@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  html,
+  body {
+    @apply h-full bg-black text-slate-100 antialiased;
+  }
+
+  body {
+    background-image: radial-gradient(
+      ellipse 80% 50% at 50% -20%,
+      rgba(0, 245, 255, 0.06),
+      transparent
+    );
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply rounded-2xl border border-glass-border bg-glass-dark backdrop-blur-xl;
+  }
+
+  .glass-card-inner {
+    @apply rounded-xl border border-glass-border bg-white/5 backdrop-blur-sm;
+  }
+
+  .overlay-panel {
+    @apply rounded-xl border border-white/10 bg-black/55 shadow-lg backdrop-blur-md;
+  }
+
+  .overlay-panel-strong {
+    @apply rounded-xl border border-white/15 bg-black/70 shadow-lg backdrop-blur-lg;
+  }
+
+  .trainer-panel {
+    @apply rounded-xl border border-white/10 bg-black/60 shadow-lg backdrop-blur-md;
+  }
+
+  .trainer-side-rail {
+    @apply pointer-events-none absolute z-20 flex flex-col gap-2 p-2 pb-16 sm:p-3 md:pb-3;
+  }
+
+  .trainer-vignette {
+    background: linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.55) 0%,
+        transparent 22%,
+        transparent 78%,
+        rgba(0, 0, 0, 0.55) 100%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.35) 0%,
+        transparent 18%,
+        transparent 72%,
+        rgba(0, 0, 0, 0.45) 100%
+      );
+  }
+
+  .btn-primary {
+    @apply rounded-xl bg-gradient-to-r from-neon-cyan/80 to-neon-purple/80 px-5 py-2.5 text-sm font-semibold text-white shadow-neon transition-all duration-300 hover:from-neon-cyan hover:to-neon-purple hover:shadow-neon-green active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:shadow-neon;
+  }
+
+  .btn-secondary {
+    @apply rounded-xl border border-white/15 bg-black/50 px-5 py-2.5 text-sm font-medium text-slate-200 backdrop-blur-sm transition-all duration-300 hover:border-neon-cyan/40 hover:bg-black/70 hover:text-white active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-icon {
+    @apply flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-black/55 text-slate-200 backdrop-blur-md transition-all hover:border-neon-cyan/40 hover:bg-black/75 hover:text-white active:scale-95;
+  }
+
+  .section-title {
+    @apply text-2xl font-black tracking-tight text-white sm:text-3xl;
+  }
+
+  .section-subtitle {
+    @apply mt-2 max-w-2xl text-sm text-slate-400 sm:text-base;
+  }
+
+  .score-badge {
+    @apply inline-flex items-center rounded-lg px-2.5 py-1 text-xs font-black tabular-nums;
+  }
+
+  .score-badge-green {
+    @apply score-badge border border-neon-green/30 bg-neon-green/15 text-neon-green;
+  }
+
+  .score-badge-cyan {
+    @apply score-badge border border-neon-cyan/30 bg-neon-cyan/15 text-neon-cyan;
+  }
+
+  .exercise-badge {
+    @apply inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-slate-200;
+  }
+}
